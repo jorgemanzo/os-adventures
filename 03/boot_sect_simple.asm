@@ -16,37 +16,48 @@
 ; Desc:	display a character on the screen, advancing the cursor and scrolling
 ; 	  the screen as necessary
 
+; <<Discovered later>>
+; This sets the offset globally so we dont need to keep track of where the bootloader
+; was loaded into memory. In this case, the bootloader is loaded at 0x7c00 by BIOS.
+[org 0x7c00]
 
+; Lets define this label here just for the fun of it
+the_secret:
+    db "X"
+
+; My attempts at figuring out how to print the above label.
+;
+mov ah, 0x0e
 
 ; Attempt one... Nope..
-mov ah, 0x0e
-mov al, the_secret
-int 0x10
+; mov al, the_secret
+; int 0x10
 
 ; Attempt two... prints "S" ????
-mov al, [the_secret]
-int 0x10
+; mov al, [the_secret]
+; int 0x10
 
-; Attempt three... prints "X"!!!?
-mov bx, the_secret
-add bx, 0x7c00
-mov al, [bx] ; De-reference bx and get its contents
-int 0x10
+; Attempt three... prints "X"!!!
+; mov bx, the_secret
+; add bx, 0x7c00
+; mov al, [bx] ; De-reference bx and get its contents
+; int 0x10
 
 ; Fourth attempt...
 ;
 ; This assembles to...
 ; 00000010: 007c 8a07 cd10 a029 7ccd 10eb fe58 0000  .|.....)|....X..
 ;                                           ^- 1d (29 in deximal) bytes in..
-mov al, [0x7c1d]
+; mov al, [0x7c00]
+; int 0x10
+
+; So now that we can set a global offset, we can print X without doing anything fancy.
+mov al, [the_secret]
 int 0x10
 
 ; Loop forever...
 jmp $
 
-; Lets define this label here just for the fun of it
-the_secret:
-    db "X"
 
 ; Intent: Fill with 510 zeros minus the size of the previous code.
 ; 
