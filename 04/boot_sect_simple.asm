@@ -47,7 +47,7 @@ mov bp, 0x8000
 ; Set the stack pointer to start at the base and grow DOWNWARD
 mov sp, bp
 
-; Push some things on the stack (note these are UNICODE)
+; Push some things on the stack (each should be 1 byte...)
 push 'A'
 push 'B'
 push 'C'
@@ -57,9 +57,9 @@ push 'C'
 ;             |          Free           | 
 ;             |                         | 
 ; bp ----->   |-------------------------| <--- We're about to put a stack here, at 0x8000
-; Grows V     |           'A'           | <--- Lives at 0x7ffe (occupies 2 Byte UNICODE)
-; Down  V     |           'B'           | <--- Lives at 0x7ffc (occupies 2 Byte UNICODE)
-; sp ----->   |           'C'           | <--- Lives at 0x7ffa (occupies 2 Byte UNICODE)
+; Grows V     |           'A'           | <--- Lives at 0x7ffe (occupies 2 bytes even though a char is 1 byte)
+; Down  V     |           'B'           | <--- Lives at 0x7ffc
+; sp ----->   |           'C'           | <--- Lives at 0x7ffa
 ;             |~~~~~~~~~~~~~~~~~~~~~~~~~|
 ;             |                         |
 ;             |          Free           |
