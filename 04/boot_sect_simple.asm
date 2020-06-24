@@ -15,7 +15,7 @@
 ;     131072< |      Video Memory       |
 ;             |                         |
 ;             +-------------------------+ 0xA0000
-;     1024<   |    Extended BIOS Stuff  |
+;     1024<   |    Extended BIOS Stuff  | <--- I dont know how Nick Blundell came up with 600KB+ here...
 ;             +-------------------------+ 0x9fc00
 ;             |                         |
 ;             |                         |
